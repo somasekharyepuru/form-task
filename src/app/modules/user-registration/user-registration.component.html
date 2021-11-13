@@ -1,0 +1,102 @@
+<div class="registration-container mt-3">
+  <div class="row" *ngIf="!fromUpdate">
+    <div class="col-1 offset-11 mt-3">
+      <button class="btn btn-primary" [routerLink]="['', 'dashboard']">Dashboard</button>
+    </div>
+  </div>
+  <div class="row">
+    <div [ngClass]="fromUpdate ? 'col mt-3' : 'offset-4 col-4 mt-3'">
+      <div class="card user-card">
+        <div class="card-title text-center">
+          <h4 class="mt-3">Registration Form</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="userRegistrationForm" (submit)="submit()">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name" formControlName="firstName">
+                    <template [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{control: userRegistrationForm.get('firstName')}"></template>
+
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last Name" formControlName="lastName">
+                    <template [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{control: userRegistrationForm.get('lastName')}"></template>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" name="email" id="email" placeholder="Email" formControlName="email">
+                    <template [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{control: userRegistrationForm.get('email')}"></template>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" formControlName="phone">
+                    <template [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{control: userRegistrationForm.get('phone')}"></template>
+                </div>
+                <div formGroupName="address">
+                  <div class="form-group">
+                      <label for="country">Country</label>
+                      <select name="country" class="form-control" id="country" formControlName="country">
+                          <option value="">Select Country</option>
+                          <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+                      </select>
+                      <template [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{control: userRegistrationForm.get('address').get('country')}"></template>
+                  </div>
+                  <div class="form-group">
+                      <label for="state">State</label>
+                      <select name="state" class="form-control" id="state" formControlName="state">
+                          <option value="">Select state</option>
+                          <option *ngFor="let state of states" [value]="state">{{state}}</option>
+                      </select>
+                      <template [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{control: userRegistrationForm.get('address').get('state')}"></template>
+                  </div>
+                  <div class="form-group">
+                      <label for="city">City</label>
+                      <select class="form-control" name="city" id="city" formControlName="city">
+                          <option value="">Select City</option>
+                          <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+                      </select>
+                      <template [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{control: userRegistrationForm.get('address').get('city')}"></template>
+                  </div>
+              </div>
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth</label>
+                    <input type="date" class="form-control" name="dateOfBirth" id="dateOfBirth" placeholder="dateOfBirth" formControlName="dateOfBirth">
+                    <template [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{control: userRegistrationForm.get('dateOfBirth')}"></template>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" formControlName="password">
+                    <template [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{control: userRegistrationForm.get('password')}"></template>
+                </div>
+                <div class="form-group">
+                  <label for="confirmPass">Confirm Password</label>
+                  <input type="password" class="form-control" name="confirmPass" id="confirmPass" placeholder="Confirm Password" formControlName="confirmPass">
+                  <template [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{control: userRegistrationForm.get('confirmPass')}"></template>
+              </div>
+
+                <button class="btn btn-success btn-block" [disabled]="userRegistrationForm.invalid">{{fromUpdate ? 'Update': 'Submit'}}</button>
+
+
+            </form>
+        </div>
+    </div>
+    </div>
+    <!-- <div class="col-5">
+      <ms-user-registration></ms-user-registration>
+    </div> -->
+  </div>
+</div>
+
+<ng-template #errorTemplate let-control="control">
+  <span class="text-danger" *ngIf="control.touched && control.errors?.required"> Please fill this field</span>
+  <span class="text-danger" *ngIf="control.touched && control.errors?.email"> Invalid Email Address</span>
+  <span class="text-danger" *ngIf="control.touched && control.errors?.invalidPhone"> Invalid Phone Number</span>
+  <span class="text-danger" *ngIf="control.touched && control.errors?.invalidPassword"> Invalid Password</span>
+  <span class="text-danger" *ngIf="control.touched && control.errors?.passwordNotEqual"> Both the passwords are not equal</span>
+  <span class="text-danger" *ngIf="control.touched && control.errors?.emailExists"> Email Already exists</span>
+
+
+</ng-template>
+
+
